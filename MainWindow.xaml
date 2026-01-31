@@ -1,0 +1,62 @@
+<Window x:Class="ProjectLauncherWidget.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectLauncherWidget"
+        mc:Ignorable="d"
+        Title="Project Launcher Widget"
+        Height="600" Width="800"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="#E0F0F8"
+        ResizeMode="CanResizeWithGrip"
+        AllowDrop="True"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        PreviewDragEnter="Window_PreviewDragEnter"
+        PreviewDragOver="Window_PreviewDragOver"
+        PreviewDrop="Window_PreviewDrop">
+    <Grid>
+        <!-- 标题栏 -->
+        <Grid Height="30" Background="#D0E0F0" VerticalAlignment="Top">
+            <TextBlock Text="Project Launcher Widget" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
+            <Button x:Name="CloseButton" Content="X" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Click="CloseButton_Click" Background="Transparent" BorderBrush="Transparent"/>
+        </Grid>
+        
+        <!-- 项目图标网格 -->
+        <ItemsControl x:Name="ProjectGrid" Margin="10,40,10,10"
+                      AllowDrop="False"
+                      PreviewMouseLeftButtonDown="ProjectGrid_PreviewMouseLeftButtonDown"
+                      PreviewMouseMove="ProjectGrid_PreviewMouseMove"
+                      PreviewMouseLeftButtonUp="ProjectGrid_PreviewMouseLeftButtonUp">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" ItemWidth="100" ItemHeight="120"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Width="80" Height="100" Margin="10"
+                            Background="#F0F8FF" BorderBrush="#B0C4DE" BorderThickness="1"
+                            CornerRadius="8"
+                            MouseLeftButtonDown="ProjectIcon_MouseLeftButtonDown"
+                            MouseRightButtonUp="ProjectIcon_MouseRightButtonUp"
+                            Tag="{Binding Id}">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Source="{Binding Icon}" Width="64" Height="64" Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" TextAlignment="Center" FontSize="12" MaxWidth="70"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
+        <!-- 拖拽提示 -->
+        <Border x:Name="DragDropHint" Visibility="Collapsed"
+                Background="#80008080" BorderBrush="#008080" BorderThickness="2"
+                CornerRadius="8" Margin="20,50,20,20">
+            <TextBlock Text="拖拽项目文件夹到此处添加" FontSize="16" FontWeight="Medium"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+        </Border>
+    </Grid>
+</Window>
